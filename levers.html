@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DBS | Cash Preservation — Lever Recipe Guide</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&amp;display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy:    #0d4c93;
+  --navy2:   #083870;
+  --yellow:  #fcdb60;
+  --teal:    #48c1bb;
+  --saffron: #faab37;
+  --bg:      #f2f5fb;
+  --white:   #ffffff;
+  --text:    #0d1b2e;
+  --muted:   #5a6a80;
+  --border:  #dde5f0;
+  --font:    'Google Sans Flex', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ─── */
+.nav {
+  background: var(--navy);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.nav-brand { font-size: 17px; font-weight: 700; color: var(--yellow); letter-spacing: 0.01em; }
+.nav-brand span { color: rgba(255,255,255,0.45); font-weight: 400; }
+.nav-back {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  border-radius: 30px;
+  padding: 6px 16px 6px 12px;
+  color: white;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.nav-back:hover { background: rgba(255,255,255,0.14); }
+.nav-back svg { width: 16px; height: 16px; flex-shrink: 0; }
+.nav-back.visible { display: flex; }
+
+/* ─── PAGES ─── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── HOME HERO ─── */
+.home-hero {
+  background: var(--navy);
+  padding: 5rem 2.5rem 4.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.home-hero::before {
+  content: '';
+  position: absolute;
+  right: -120px; top: -120px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: rgba(252,219,96,0.05);
+}
+.home-hero::after {
+  content: '';
+  position: absolute;
+  left: -80px; bottom: -80px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: rgba(72,193,187,0.06);
+}
+.hero-badge {
+  position: relative; z-index: 1;
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 18px;
+  border-radius: 30px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.home-hero h1 {
+  position: relative; z-index: 1;
+  font-size: clamp(34px, 5vw, 60px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.home-hero h1 em { color: var(--yellow); font-style: normal; }
+.home-hero p {
+  position: relative; z-index: 1;
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(255,255,255,0.55);
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+.stats-row {
+  position: relative; z-index: 1;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.stat .val {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--yellow);
+  line-height: 1;
+}
+.stat .lbl {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 6px;
+}
+
+/* ─── LEVER GRID ─── */
+.grid-section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem;
+}
+.grid-intro {
+  margin-bottom: 2rem;
+}
+.grid-intro h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+.grid-intro p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.levers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.1rem;
+}
+.lever-tile {
+  background: var(--white);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.lever-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(13,76,147,0.11);
+  border-color: var(--navy);
+}
+.tile-top {
+  padding: 1.5rem 1.5rem 1.25rem;
+  flex: 1;
+}
+.tile-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+.tile-top h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  margin-bottom: 0.65rem;
+}
+.tile-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.tile-bottom {
+  padding: 0.9rem 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tile-saving {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.tile-saving span { font-size: 11px; font-weight: 400; color: var(--muted); margin-left: 3px; }
+.tile-arrow {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+.lever-tile:hover .tile-arrow { background: var(--navy); }
+.lever-tile:hover .tile-arrow svg { stroke: white; }
+.tile-arrow svg { width: 14px; height: 14px; stroke: var(--muted); stroke-width: 2; fill: none; transition: stroke 0.15s; }
+
+/* Accent top borders */
+.lever-tile:nth-child(1)  .tile-top { border-top: 4px solid var(--navy); }
+.lever-tile:nth-child(2)  .tile-top { border-top: 4px solid var(--teal); }
+.lever-tile:nth-child(3)  .tile-top { border-top: 4px solid var(--saffron); }
+.lever-tile:nth-child(4)  .tile-top { border-top: 4px solid #e74c3c; }
+.lever-tile:nth-child(5)  .tile-top { border-top: 4px solid #9b59b6; }
+.lever-tile:nth-child(6)  .tile-top { border-top: 4px solid #27ae60; }
+.lever-tile:nth-child(7)  .tile-top { border-top: 4px solid #e67e22; }
+.lever-tile:nth-child(8)  .tile-top { border-top: 4px solid var(--teal); }
+.lever-tile:nth-child(9)  .tile-top { border-top: 4px solid #2980b9; }
+.lever-tile:nth-child(10) .tile-top { border-top: 4px solid #c0392b; }
+
+/* ─── HOW IT WORKS STRIP ─── */
+.howto-strip {
+  background: var(--navy);
+  padding: 3.5rem 2.5rem;
+}
+.howto-inner { max-width: 1080px; margin: 0 auto; }
+.howto-strip h2 {
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+.howto-strip p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.howto-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.hs {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+.hs .n {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--yellow);
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+.hs h4 { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.hs p  { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.65; }
+
+/* ─── LEVER DETAIL PAGE ─── */
+.detail-hero {
+  background: var(--navy);
+  padding: 4rem 2.5rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.detail-hero::after {
+  content: '';
+  position: absolute;
+  right: -80px; top: -80px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+}
+.detail-lever-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1rem;
+  position: relative; z-index: 1;
+}
+.detail-hero h1 {
+  position: relative; z-index: 1;
+  font-size: clamp(28px, 4vw, 50px);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+.detail-hero h1 em { color: var(--yellow); font-style: normal; }
+.detail-hero .intro {
+  position: relative; z-index: 1;
+  font-size: clamp(15px, 2vw, 17px);
+  color: rgba(255,255,255,0.55);
+  max-width: 620px;
+  line-height: 1.75;
+}
+.detail-meta {
+  position: relative; z-index: 1;
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  flex-wrap: wrap;
+}
+.dm-item .dm-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.dm-item .dm-val {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--yellow);
+}
+
+/* ─── DETAIL BODY ─── */
+.detail-body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 2.5rem 5rem;
+}
+
+/* Animated sections */
+.dsec {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  margin-bottom: 1.25rem;
+}
+.dsec.in { opacity: 1; transform: translateY(0); }
+
+/* Section card */
+.dcard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 2rem 2.25rem;
+}
+.dcard-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+.dcard-label::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+.dcard-label.yellow::before { background: var(--saffron); }
+.dcard-label.navy::before   { background: var(--navy); }
+
+/* Opening question */
+.opener {
+  background: var(--navy);
+  border-radius: 18px;
+  padding: 2.25rem 2.5rem;
+  border-left: 5px solid var(--yellow);
+}
+.opener .oq {
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 700;
+  color: var(--yellow);
+  margin-bottom: 0.85rem;
+  line-height: 1.3;
+}
+.opener p { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.75; }
+.opener strong { color: white; }
+
+/* Steps */
+.steps-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.step-row {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 1.25rem;
+  align-items: flex-start;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem 1.5rem;
+  transition: all 0.2s ease;
+}
+.step-row:hover { border-color: var(--navy); transform: translateX(5px); }
+.step-num {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.step-body h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.step-body p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+.chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+.chip-t  { background: #d4f4f2; color: #1a6e6b; }
+.chip-y  { background: #fdf3cd; color: #7a5800; }
+.chip-n  { background: #dde8f7; color: #083870; }
+.chip-r  { background: #fee2e2; color: #991b1b; }
+
+/* Good / bad examples */
+.ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width:580px){ .ex-grid { grid-template-columns: 1fr; } }
+.ex-card { border-radius: 14px; padding: 1.4rem; border: 1px solid var(--border); }
+.ex-card.good { border-left: 4px solid #48bb78; background: #f0fdf4; }
+.ex-card.bad  { border-left: 4px solid #e74c3c; background: #fff5f5; }
+.ex-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+.ex-card.good .ex-label { color: #166534; }
+.ex-card.bad  .ex-label { color: #991b1b; }
+.ex-card p { font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+/* Copilot box */
+.copilot-box {
+  background: var(--navy);
+  border-radius: 18px;
+  padding: 2.25rem 2.5rem;
+}
+.copilot-box h3 { font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; color: white; margin-bottom: 0.4rem; }
+.copilot-box .ci { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 1.5rem; }
+.prompt-card {
+  background: rgba(72,193,187,0.1);
+  border: 1px solid rgba(72,193,187,0.3);
+  border-radius: 12px;
+  padding: 1.4rem 1.5rem;
+}
+.prompt-label { font-size: 11px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+.prompt-card blockquote {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.8;
+  font-style: italic;
+  border-left: 3px solid var(--teal);
+  padding-left: 1rem;
+}
+
+/* Interactive checklist */
+.checklist { display: flex; flex-direction: column; gap: 0.75rem; }
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.18s ease;
+}
+.check-item:hover  { border-color: var(--teal); background: #f7fffe; }
+.check-item.ticked { background: #edfaf9; border-color: var(--teal); }
+.check-box {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: transparent;
+  transition: all 0.15s;
+  margin-top: 1px;
+}
+.check-item.ticked .check-box {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: white;
+}
+.check-body h5 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.check-body small { font-size: 12px; color: var(--muted); line-height: 1.5; display: block; }
+.result-chip {
+  margin-top: 1rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  background: var(--yellow);
+  color: var(--navy);
+  display: none;
+  transition: all 0.3s;
+}
+.result-chip.show { display: block; }
+
+/* CTA strip */
+.cta-strip {
+  border-radius: 18px;
+  padding: 2.5rem;
+  text-align: center;
+}
+.cta-strip h3 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 800; margin-bottom: 0.75rem; }
+.cta-strip p  { font-size: 15px; line-height: 1.7; max-width: 480px; margin: 0 auto; }
+
+/* Footer */
+footer {
+  background: #060e1a;
+  padding: 2rem 2.5rem;
+  text-align: center;
+}
+footer p { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; text-transform: uppercase; }
+
+@media(max-width:600px){
+  .stats-row { gap: 2rem; }
+  .detail-body { padding: 2rem 1.5rem 4rem; }
+  .grid-section { padding: 2.5rem 1.5rem; }
+}
+
+
+body.with-notes { padding-right: 390px; }
+.nav { gap: 1rem; }
+.nav-progress { color: rgba(255,255,255,0.82); font-size: 13px; font-weight: 600; margin-left: auto; }
+.notes-panel {
+  position: fixed;
+  top: 82px;
+  right: 18px;
+  width: 340px;
+  max-height: calc(100vh - 100px);
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px rgba(13,76,147,0.12);
+  border-radius: 18px;
+  padding: 1rem;
+  z-index: 160;
+  display: flex;
+  flex-direction: column;
+}
+.notes-head h3 { font-size: 18px; color: var(--navy); margin-bottom: 4px; }
+.notes-head p { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 0.9rem; }
+.notes-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+.notes-name, .notes-text {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text);
+  padding: 0.85rem 0.95rem;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.notes-name:focus, .notes-text:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(13,76,147,0.08); }
+.notes-name { margin-bottom: 0.9rem; }
+.notes-text { min-height: 360px; resize: vertical; flex: 1; }
+.notes-status { margin-top: 0.75rem; font-size: 12px; color: var(--muted); }
+.prompt-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.8rem; }
+.copy-prompt-btn {
+  border: none; border-radius: 10px; padding: 0.65rem 0.95rem; cursor: pointer;
+  background: var(--yellow); color: var(--navy); font-family: var(--font); font-weight: 700; font-size: 12px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.copy-prompt-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(252,219,96,0.18); }
+.copy-prompt-btn.copied { background: var(--teal); color: white; }
+.prompt-label { margin-bottom: 0; }
+.prompt-text { white-space: pre-wrap; }
+.wizard-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 2rem; padding-top: 1rem;
+}
+.wizard-spacer { flex: 1; }
+.wizard-btn {
+  border: none; border-radius: 14px; padding: 0.95rem 1.3rem; cursor: pointer; font-family: var(--font);
+  font-size: 14px; font-weight: 700; transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+.wizard-btn:hover { transform: translateY(-1px); }
+.wizard-btn.primary { background: var(--navy); color: white; box-shadow: 0 12px 24px rgba(13,76,147,0.18); }
+.wizard-btn.secondary { background: #eaf0f8; color: var(--navy); }
+.wizard-btn.export { background: var(--teal); color: white; box-shadow: 0 12px 24px rgba(72,193,187,0.18); }
+.page { display: none; }
+.page.active { display: block; }
+@media (max-width: 1180px) {
+  body.with-notes { padding-right: 0; }
+  .notes-panel {
+    position: sticky;
+    top: 72px;
+    right: auto;
+    width: auto;
+    max-height: none;
+    margin: 1rem 1.5rem 0;
+  }
+  .detail-body { max-width: 980px; }
+}
+@media (max-width: 600px) {
+  .nav { padding: 0 1rem; }
+  .nav-brand { font-size: 15px; }
+  .nav-progress { font-size: 12px; }
+  .notes-panel { margin: 1rem; }
+  .wizard-nav { flex-wrap: wrap; }
+  .wizard-btn, .wizard-spacer { width: 100%; }
+}
+</style>
+</head>
+<body class="with-notes">
+<!-- ════════════════════ NAV ════════════════════ -->
+<nav class="nav">
+<div class="nav-brand">DBS <span>Cash Preservation Workbook</span></div>
+
+<div class="nav-progress" id="nav-progress">Lever 1 of 10</div></nav>
+<aside class="notes-panel" id="notes-panel">
+<div class="notes-head">
+<h3>My notes</h3>
+<p>Saved locally on this laptop for each lever.</p>
+</div>
+<label class="notes-label" for="idea-owner">Your name</label>
+<input class="notes-name" id="idea-owner" placeholder="Enter your name" type="text"/>
+<label class="notes-label" for="lever-notes">Idea notes for this lever</label>
+<textarea class="notes-text" id="lever-notes" placeholder="Capture the opportunity, rough savings, people involved, risks, and any follow-up needed..."></textarea>
+<div class="notes-status" id="notes-status">Saved locally</div>
+</aside>
+
+<!-- ════════════════════ HOME PAGE ════════════════════ -->
+<!-- /page-home -->
+<!-- ════════════════════ LEVER DETAIL PAGES ════════════════════ -->
+<!-- ── LEVER 1 ── -->
+<div class="page active" id="page-1">
+<div class="detail-hero" style="background:linear-gradient(145deg,var(--navy2),var(--navy))">
+<div class="detail-lever-num">Lever 01</div>
+<h1>Is your team working on<br/>something nobody<br/><em>actually needs anymore?</em></h1>
+<p class="intro">Project &amp; Demand Rationalisation — you don't need to be a manager to spot waste. If you see a project that has lost its purpose, this is how you flag it fast.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">10–20%</div></div>
+<div class="dm-item"><div class="dm-label">Speed</div><div class="dm-val">Year 1</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">High</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="opener">
+<div class="oq">Do any of these sound familiar?</div>
+<p>A project that has been "almost done" for 12 months. A deliverable nobody is asking for anymore. A workstream that quietly stopped having meetings but is still consuming budget. A request from last year that the business has moved on from.<br/><br/><strong>If this sounds familiar, you may have a valuable cash preservation idea.</strong></p>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Here is exactly what to do. Right now.</div>
+<div class="steps-list">
+<div class="step-row">
+<div class="step-num" style="background:var(--navy)">1</div>
+<div class="step-body"><h4>Name the project or demand</h4><p>Think about what your team is actively working on. Write down any project, initiative, or recurring request you personally question. A gut feeling counts at this stage.</p><span class="chip chip-y">Takes 5 minutes</span></div>
+</div>
+<div class="step-row">
+<div class="step-num" style="background:var(--navy)">2</div>
+<div class="step-body"><h4>Ask yourself one honest question</h4><p>"If we stopped this today, would anyone notice in 30 days?" If the answer is no — or "probably not" — that is your idea.</p><span class="chip chip-n">No data needed</span></div>
+</div>
+<div class="step-row">
+<div class="step-num" style="background:var(--navy)">3</div>
+<div class="step-body"><h4>Estimate the cost — roughly is fine</h4><p>How many people are on it? How many days a month? Multiply by a rough day rate. Example: 3 people × 10 days/month × QAR 2,000 = QAR 60K/month.</p><span class="chip chip-t">Rough numbers are fine</span></div>
+</div>
+<div class="step-row">
+<div class="step-num" style="background:var(--navy)">4</div>
+<div class="step-body"><h4>Share the idea in a clear sentence</h4><p>Write it in one clear sentence: what the project is, what it costs roughly, and why you think it can be paused or stopped. You do not need to prove it. Capture it clearly and share it for review.</p><span class="chip chip-t">Named submission</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label yellow">What a good submission looks like</div>
+<div class="ex-grid">
+<div class="ex-card good"><div class="ex-label">✅ Actionable — aim for this</div><p>"The weekly automated report sent to 3 executives has not been opened in 4 months. It runs on a QAR 8K/month server job. Suggest we cancel it."</p></div>
+<div class="ex-card bad"><div class="ex-label">❌ Too vague to act on</div><p>"We should review our projects and cut unnecessary ones."</p></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Not sure how to write it up? Use Copilot.</h3>
+<p class="ci">Open Microsoft Copilot. Describe your situation. Use this prompt:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-1', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-1">"I work in IT and want to suggest stopping or pausing a project. Here is what I know: [describe the project, who is working on it, what it delivers, and whether anyone uses the output]. Help me write a one-paragraph cash preservation idea in plain language that includes an estimated saving."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:var(--yellow)">
+<h3 style="color:var(--navy)">Your idea could unlock real savings.</h3>
+<p style="color:#4a5a70">You do not need to have every detail. A clear observation and a practical note are enough to start the conversation.</p>
+</div>
+</div>
+<div class="wizard-nav"><div class="wizard-spacer"></div><button class="wizard-btn primary" onclick="goToLever(2)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 2 ── -->
+<div class="page" id="page-2">
+<div class="detail-hero" style="background:linear-gradient(145deg,#0a3c70,var(--teal))">
+<div class="detail-lever-num">Lever 02</div>
+<h1>Got hardware<br/><em>collecting dust</em><br/>somewhere?</h1>
+<p class="intro">Asset Transfer — if you know of a device, server, or piece of equipment sitting idle, that is a cash preservation idea. Here is what to do with it.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">25–100%</div></div>
+<div class="dm-item"><div class="dm-label">Speed</div><div class="dm-val">Year 1</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">High</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="opener">
+<div class="oq">Idle assets cost money even when no one uses them.</div>
+<p>Every server that runs but does nothing burns electricity and rack space. Every laptop in a drawer costs a support contract. Every unused licence is money we pay month after month.<br/><br/><strong>If you know of one — flag it.</strong></p>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Do any of these exist in your area?</div>
+<div class="checklist" id="cl-2">
+<div class="check-item" data-item="1" data-label="A server or VM that hasn't been touched in months" data-lever="2" onclick="tick(this,'cl-2','r2')"><div class="check-box">✓</div><div class="check-body"><h5>A server or VM that hasn't been touched in months</h5><small>If a system runs but nobody uses it — the infrastructure team can check utilisation in minutes.</small></div></div>
+<div class="check-item" data-item="2" data-label="Laptops, monitors or phones from people who have left" data-lever="2" onclick="tick(this,'cl-2','r2')"><div class="check-box">✓</div><div class="check-body"><h5>Laptops, monitors or phones from people who have left</h5><small>Equipment from departed employees can be redeployed to new hires instead of buying new.</small></div></div>
+<div class="check-item" data-item="3" data-label="A software licence nobody in your team uses anymore" data-lever="2" onclick="tick(this,'cl-2','r2')"><div class="check-box">✓</div><div class="check-body"><h5>A software licence nobody in your team uses anymore</h5><small>Think about tools your team was given 12 months ago. Are people actually logging in?</small></div></div>
+<div class="check-item" data-item="4" data-label="Network or telephony equipment at a site no longer active" data-lever="2" onclick="tick(this,'cl-2','r2')"><div class="check-box">✓</div><div class="check-body"><h5>Network or telephony equipment at a site no longer active</h5><small>Old office locations or decommissioned areas sometimes still have connected equipment running up costs.</small></div></div>
+</div>
+<div class="result-chip" id="r2"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">What to do. In 3 steps.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:var(--teal)">1</div><div class="step-body"><h4>Write down what you found</h4><p>Asset name or description, where it is, who last used it, how long it has been idle. That is all.</p><span class="chip chip-y">5 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--teal)">2</div><div class="step-body"><h4>Estimate the waste</h4><p>For hardware: monthly running cost or purchase value. For software: licence fee per user × idle user count. Rough is fine.</p><span class="chip chip-t">Rough is fine</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--teal)">3</div><div class="step-body"><h4>Share it with the Infrastructure Head for review</h4><p>Your role is to raise what you have noticed. The infrastructure team can validate the detail and decide the best next step. You do not need to resolve it yourself.</p><span class="chip chip-n">Enough for an initial review</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Use Copilot to write up your submission</h3>
+<p class="ci">Not sure how to describe it clearly? Open Copilot and use this:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-2', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-2">"I want to flag an underutilised IT asset for a cash preservation review. Here is what I know: [describe the asset, its location, how long it has been idle, and what it was originally used for]. Help me write a clear one-paragraph submission including: what the asset is, the estimated cost of keeping it running or licensed, and a proposed action — redeploy, sell, decommission, or cancel."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:var(--teal)">
+<h3 style="color:var(--navy)">The smallest observation can unlock big savings.</h3>
+<p style="color:rgba(13,76,147,0.7)">You do not need to be an asset manager. You just need to have noticed something that looks like waste.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(1)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(3)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 3 ── -->
+<div class="page" id="page-3">
+<div class="detail-hero" style="background:linear-gradient(145deg,#0d1b2e,#0a3c70)">
+<div class="detail-lever-num">Lever 03</div>
+<h1>Do you have a work<br/><em>phone or plan</em><br/>you barely use?</h1>
+<p class="intro">Telecom Expense Reduction — one of the fastest cash wins available. And you are probably sitting on an idea right now.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">20–60%</div></div>
+<div class="dm-item"><div class="dm-label">Speed</div><div class="dm-val">Year 1</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">High</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Tick every telecom cost that applies to you or your team.</div>
+<div class="checklist" id="cl-3">
+<div class="check-item" data-item="1" data-label="I have a work mobile plan but mostly use WhatsApp or Teams" data-lever="3" onclick="tick(this,'cl-3','r3')"><div class="check-box">✓</div><div class="check-body"><h5>I have a work mobile plan but mostly use WhatsApp or Teams</h5><small>The plan might be oversized for actual usage — a cheaper tier could cover real needs.</small></div></div>
+<div class="check-item" data-item="2" data-label="Our team has phone lines or extensions that nobody calls" data-lever="3" onclick="tick(this,'cl-3','r3')"><div class="check-box">✓</div><div class="check-body"><h5>Our team has phone lines or extensions that nobody calls</h5><small>Legacy desk phones, old DDI numbers, fax lines still on contract...</small></div></div>
+<div class="check-item" data-item="3" data-label="We have internet connectivity at a location rarely visited" data-lever="3" onclick="tick(this,'cl-3','r3')"><div class="check-box">✓</div><div class="check-body"><h5>We have internet connectivity at a location rarely visited</h5><small>Old offices, satellite sites, storage facilities still drawing a monthly line rental.</small></div></div>
+<div class="check-item" data-item="4" data-label="There are SIM cards assigned to devices or roles that no longer exist" data-lever="3" onclick="tick(this,'cl-3','r3')"><div class="check-box">✓</div><div class="check-body"><h5>There are SIM cards assigned to devices or roles that no longer exist</h5><small>Tablets, shared devices, roles that have been restructured or eliminated.</small></div></div>
+<div class="check-item" data-item="5" data-label="We are paying for a premium connectivity tier we probably do not need" data-lever="3" onclick="tick(this,'cl-3','r3')"><div class="check-box">✓</div><div class="check-body"><h5>We are paying for a premium connectivity tier we probably do not need</h5><small>Bandwidth provisioned for a team that has since got smaller or changed how they work.</small></div></div>
+</div>
+<div class="result-chip" id="r3"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">What to do with what you just found.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:var(--saffron)">1</div><div class="step-body"><h4>Note the specific service</h4><p>Provider name, what it is — mobile plan, internet line, legacy number — and roughly how much it costs per month.</p><span class="chip chip-y">2 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--saffron)">2</div><div class="step-body"><h4>Confirm it is genuinely unused or oversized</h4><p>Check last 3 months of usage. If it is a mobile plan, look at data and call logs. If it is a line, think about when it last rang. Trust your gut.</p><span class="chip chip-t">5 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--saffron)">3</div><div class="step-body"><h4>Share it with the Infrastructure or PCS Head</h4><p>A short message is enough: "We have [X] that does not seem to be used — worth reviewing." They can then assess the best next step.</p><span class="chip chip-n">One message</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>If you manage a telecom contract — use Copilot</h3>
+<p class="ci">Upload your contract or invoice to Microsoft Copilot and use this prompt:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-3', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-3">"I have uploaded a telecom contract or invoice. Please analyse it and tell me: (1) all services and their individual costs, (2) any services that Microsoft Teams could replace such as voice and conferencing, (3) the auto-renewal date and exit notice period, (4) any usage data suggesting over-provisioning, (5) three specific actions I could take to reduce the total cost by 25% or more."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:var(--saffron)">
+<h3 style="color:var(--navy)">Telecom waste is invisible — until someone looks.</h3>
+<p style="color:rgba(13,76,147,0.7)">Most telecom costs get renewed automatically and never questioned. Being the person who questions them is genuinely valuable.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(2)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(4)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 4 ── -->
+<div class="page" id="page-4">
+<div class="detail-hero" style="background:linear-gradient(145deg,#1a0505,#6b1c1c)">
+<div class="detail-lever-num">Lever 04</div>
+<h1>Are you a<br/><em>contract owner?</em><br/>This one is for you.</h1>
+<p class="intro">Vendor &amp; Contract Consolidation — you do not need procurement expertise. You need 20 minutes and Copilot.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">20–40%</div></div>
+<div class="dm-item"><div class="dm-label">Speed</div><div class="dm-val">Year 1</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">High</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="opener">
+<div class="oq">Most contracts auto-renew. Most renewals happen without anyone checking.</div>
+<p>If you manage a vendor relationship — software, services, maintenance, consulting — you are a contract owner. Most contracts auto-renew. Most renewals happen without anyone checking if the price is still fair, if all the services are still needed, or if a better option now exists.<br/><br/><strong>This is where the money is hiding.</strong></p>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">How to review a contract fast — no training required.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:#e74c3c">1</div><div class="step-body"><h4>Find your contract PDF or email chain</h4><p>Look in your inbox, SharePoint, or shared drive. Even a scanned PDF works. You just need something that shows what you agreed to pay and what they agreed to deliver.</p><span class="chip chip-y">5 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#e74c3c">2</div><div class="step-body"><h4>Ask yourself: are we actually using all of this?</h4><p>Think about the last 3 months. Are you using every service on the contract? Did your team grow or shrink? Is there a newer tool inside DBS that does the same thing?</p><span class="chip chip-t">No data needed yet</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#e74c3c">3</div><div class="step-body"><h4>Upload the contract to Copilot and use the prompt below</h4><p>You do not need to read 40 pages. Copilot reads it for you and surfaces exactly what you need to challenge.</p><span class="chip chip-n">Under 10 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#e74c3c">4</div><div class="step-body"><h4>Submit your finding</h4><p>Vendor name, annual cost, and what Copilot flagged as a saving opportunity. The right people will take it from there. Enough for an initial review.</p><span class="chip chip-t">Enough for an initial review</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label yellow">What a good submission looks like</div>
+<div class="ex-grid">
+<div class="ex-card good"><div class="ex-label">✅ Actionable — use this format</div><p>"Vendor: CloudTools Ltd. Annual value: QAR 180,000. Copilot flagged that we are paying for 5 modules but only using 2. Auto-renews in March. Downgrading to 2 modules saves QAR 72K/year."</p></div>
+<div class="ex-card bad"><div class="ex-label">❌ Too vague — not actionable</div><p>"We should look at our vendor contracts and see if we can save money on them."</p></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Your Copilot contract review — copy this prompt</h3>
+<p class="ci">Open Microsoft 365 Copilot. Upload your contract. Then paste this:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-4', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-4">"I have uploaded a vendor contract. Please analyse it and tell me: (1) the total annual cost and any automatic price escalation clauses, (2) every service or deliverable we are paying for — list them clearly, (3) any auto-renewal clause and how much notice we need to give to exit, (4) any services that appear duplicated or that a standard Microsoft 365 tool could replace, (5) the top 3 things I should challenge in a renegotiation to reduce cost by 20%. Keep your response concise and practical."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:#fdecea;border:1px solid #fca5a5">
+<h3 style="color:#7a1c1c">You might find savings in 20 minutes.</h3>
+<p style="color:#7a4040">Most contracts have not been reviewed since they were signed. One conversation with Copilot can surface years of overpayment.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(3)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(5)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 5 ── -->
+<div class="page" id="page-5">
+<div class="detail-hero" style="background:linear-gradient(145deg,#2d1b69,#6c5ce7)">
+<div class="detail-lever-num">Lever 05</div>
+<h1>Is your team doing<br/>work that <em>specialists</em><br/>could do cheaper?</h1>
+<p class="intro">Rebadging &amp; Managed Services — this is about honest self-assessment. Some functions cost less when done by people who do only that, all day, at scale.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">10–40%</div></div>
+<div class="dm-item"><div class="dm-label">Timeline</div><div class="dm-val">Medium-term</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">Strategic</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="opener">
+<div class="oq">This is not about replacing people. It is about honest cost comparison.</div>
+<p>Identifying functions where a managed service provider could deliver the same outcome at significantly lower cost. Every person freed from routine operational work is a person available for strategic, high-value work.<br/><br/><strong>That is a win, not a loss.</strong></p>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Does any of this sound familiar?</div>
+<div class="checklist" id="cl-5">
+<div class="check-item" data-item="1" data-label="Your team spends a lot of time on repetitive operational tasks" data-lever="5" onclick="tick(this,'cl-5','r5')"><div class="check-box">✓</div><div class="check-body"><h5>Your team spends a lot of time on repetitive operational tasks</h5><small>Monitoring, first-line support, patching, backup management, routine reporting — important but not where your expertise is most valuable.</small></div></div>
+<div class="check-item" data-item="2" data-label="A small team needs to be available 24/7" data-lever="5" onclick="tick(this,'cl-5','r5')"><div class="check-box">✓</div><div class="check-body"><h5>A small team needs to be available 24/7</h5><small>Shift coverage with a small team is expensive. An MSP at scale can provide 24/7 coverage at a fraction of the in-house cost.</small></div></div>
+<div class="check-item" data-item="3" data-label="The function requires specialised skills that are hard to retain" data-lever="5" onclick="tick(this,'cl-5','r5')"><div class="check-box">✓</div><div class="check-body"><h5>The function requires specialised skills that are hard to retain</h5><small>If you are paying market rates for expertise used only occasionally, an MSP may provide it on demand.</small></div></div>
+</div>
+<div class="result-chip" id="r5"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">How to flag this idea.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:#9b59b6">1</div><div class="step-body"><h4>Describe the function, not the team</h4><p>Focus on what the work is, not who does it. What is the task, how often does it happen, how many person-hours per month?</p><span class="chip chip-y">Function first</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#9b59b6">2</div><div class="step-body"><h4>Estimate the fully loaded cost</h4><p>Salary plus overheads is roughly 1.3–1.5× base salary. If you do not know exact numbers, say "approximately." Rough is better than nothing.</p><span class="chip chip-t">Rough is fine</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#9b59b6">3</div><div class="step-body"><h4>Share it with senior leadership for strategic consideration</h4><p>This is a sensitive lever. It is best considered by senior leadership. You are opening a conversation, not making a decision.</p><span class="chip chip-n">Senior review needed</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Use Copilot to build the business case</h3>
+<p class="ci">Open Copilot and use this prompt to structure your thinking:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-5', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-5">"I want to explore whether a specific IT function could be moved to a managed service provider. The function is: [describe it — what it does, how often, how many people, what tools are used]. Help me build a simple comparison that includes: (1) estimated current fully-loaded annual cost, (2) typical MSP pricing for this type of function, (3) what we would gain and what we might lose, (4) key questions I should ask before recommending this to leadership."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">
+<h3 style="color:#4c1d95">The bravest ideas are the honest ones.</h3>
+<p style="color:#6d28d9">Asking "could someone else do this better and cheaper?" takes courage. It also frees your best people for better work.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(4)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(6)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 6 ── -->
+<div class="page" id="page-6">
+<div class="detail-hero" style="background:linear-gradient(145deg,#1a2e1a,#27ae60)">
+<div class="detail-lever-num">Lever 06</div>
+<h1>Got software you<br/><em>do not actually use?</em></h1>
+<p class="intro">SW / HW Asset Optimisation — most teams are paying for tools they have forgotten about. Let us find them.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">10–20%</div></div>
+<div class="dm-item"><div class="dm-label">Timeline</div><div class="dm-val">Medium-term</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">Medium</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Quick licence reality check — answer honestly.</div>
+<div class="checklist" id="cl-6">
+<div class="check-item" data-item="1" data-label="I have a Microsoft 365 E3 licence but do not use the advanced features" data-lever="6" onclick="tick(this,'cl-6','r6')"><div class="check-box">✓</div><div class="check-body"><h5>I have a Microsoft 365 E3 licence but do not use the advanced features</h5><small>If you mostly use email, Teams, and Office apps, a lower tier could cover everything you need.</small></div></div>
+<div class="check-item" data-item="2" data-label="I have access to Adobe or a specialist tool I have not opened in 60 days" data-lever="6" onclick="tick(this,'cl-6','r6')"><div class="check-box">✓</div><div class="check-body"><h5>I have access to Adobe or a specialist tool I have not opened in 60 days</h5><small>Unused licences from inactive users can be reclaimed and reassigned — or cancelled at renewal.</small></div></div>
+<div class="check-item" data-item="3" data-label="Someone in my team has a licence for a tool they no longer use" data-lever="6" onclick="tick(this,'cl-6','r6')"><div class="check-box">✓</div><div class="check-body"><h5>Someone in my team has a licence for a tool they no longer use</h5><small>People change roles, projects end, tools get replaced — but licences rarely get reviewed.</small></div></div>
+<div class="check-item" data-item="4" data-label="There is hardware in our area past its useful life or sitting unused" data-lever="6" onclick="tick(this,'cl-6','r6')"><div class="check-box">✓</div><div class="check-body"><h5>There is hardware in our area past its useful life or sitting unused</h5><small>Delaying a hardware refresh cycle or redeploying existing equipment can defer significant capital spend.</small></div></div>
+</div>
+<div class="result-chip" id="r6"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Found something? Here is what to do.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:#27ae60">1</div><div class="step-body"><h4>List the tool and how many users have it</h4><p>Tool name, number of people with access, and your honest assessment of who actually uses it versus who just has the licence.</p><span class="chip chip-y">5 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#27ae60">2</div><div class="step-body"><h4>Find the cost per licence</h4><p>Check the invoice, the vendor website, or ask the Infrastructure team. Multiply by unused seats. Even a rough figure makes your idea compelling.</p><span class="chip chip-t">10 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#27ae60">3</div><div class="step-body"><h4>Propose the action</h4><p>Downgrade unused E3 licences to F3. Reclaim licences from inactive users. Cancel tools nobody uses before the next renewal date.</p><span class="chip chip-n">Clear and actionable</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Use Copilot to audit your licence landscape</h3>
+<p class="ci">If you have access to a licence list or usage report, paste it into Copilot with this prompt:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-6', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-6">"Here is our software licence inventory [paste the list with user counts and last-login dates if available]. Please identify: (1) any licences assigned to users who have not logged in for 60 or more days, (2) licence tiers that are likely over-specified for the user's actual role, (3) any tools that appear to serve the same function as another tool in the list, (4) the total estimated annual saving if unused and duplicate licences were removed. Format your findings as a table."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:#d1fae5">
+<h3 style="color:#065f46">You are probably sitting on thousands in recoverable licence spend.</h3>
+<p style="color:#047857">Most organisations do not audit their software until renewal day — and by then it auto-renews. Being proactive is where the savings are.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(5)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(7)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 7 ── -->
+<div class="page" id="page-7">
+<div class="detail-hero" style="background:linear-gradient(145deg,#1a0a00,#e67e22)">
+<div class="detail-lever-num">Lever 07</div>
+<h1>Do you know a system<br/>that runs but <em>nobody<br/>actually uses?</em></h1>
+<p class="intro">Infrastructure &amp; Security Optimisation — if you work in or around infrastructure or security, your observations are directly bankable.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">10–30%</div></div>
+<div class="dm-item"><div class="dm-label">Timeline</div><div class="dm-val">Medium-term</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">Medium</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">What to look for in your area.</div>
+<div class="checklist" id="cl-7">
+<div class="check-item" data-item="1" data-label="A server or VM running at very low utilisation for months" data-lever="7" onclick="tick(this,'cl-7','r7')"><div class="check-box">✓</div><div class="check-body"><h5>A server or VM running at very low utilisation for months</h5><small>Below 20% CPU consistently means the server is over-provisioned. It can be right-sized or decommissioned.</small></div></div>
+<div class="check-item" data-item="2" data-label="A dev or test environment that runs 24/7 but is only used in business hours" data-lever="7" onclick="tick(this,'cl-7','r7')"><div class="check-box">✓</div><div class="check-body"><h5>A dev or test environment that runs 24/7 but is only used in business hours</h5><small>Dev environments scheduled to shut down evenings and weekends can cut cloud costs by 60%.</small></div></div>
+<div class="check-item" data-item="3" data-label="Two security tools doing the same job" data-lever="7" onclick="tick(this,'cl-7','r7')"><div class="check-box">✓</div><div class="check-body"><h5>Two security tools doing the same job</h5><small>Endpoint plus AV overlap, SIEM plus log monitoring duplication — consolidation saves licences and reduces alert noise.</small></div></div>
+<div class="check-item" data-item="4" data-label="A project environment left running after the project ended" data-lever="7" onclick="tick(this,'cl-7','r7')"><div class="check-box">✓</div><div class="check-body"><h5>A project environment left running after the project ended</h5><small>This happens constantly. Project finishes, environment stays. Nobody notices until someone looks at the cloud bill.</small></div></div>
+</div>
+<div class="result-chip" id="r7"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">How to submit your finding.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:#e67e22">1</div><div class="step-body"><h4>Name the system or environment</h4><p>What is it? Where does it run? When was it last actively used?</p><span class="chip chip-y">Be specific</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#e67e22">2</div><div class="step-body"><h4>Estimate the monthly running cost</h4><p>For cloud: check the cost in the cloud console. For on-premise: ask the Infrastructure team. Even a rough QAR estimate matters.</p><span class="chip chip-t">Check the cloud console</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#e67e22">3</div><div class="step-body"><h4>Suggest the action and share it with the Infrastructure or InfoSec Head</h4><p>Right-size, schedule to turn off, consolidate, or decommission. You do not need to execute it — just propose the direction.</p><span class="chip chip-n">Ready for review</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Use Copilot to write up the finding</h3>
+<p class="ci">Describe your observation to Copilot and use this prompt:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-7', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-7">"I have identified a potential infrastructure optimisation. Here is what I know: [describe the system, its current utilisation, how long it has been running, and what it was originally for]. Help me write a clear cash preservation idea that includes: (1) what the system is, (2) estimated monthly cost, (3) the proposed optimisation action, (4) estimated saving, (5) any risk of making the change. Keep it under 150 words."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:#fef3e2">
+<h3 style="color:#7a3c00">Your technical knowledge is the saving.</h3>
+<p style="color:#92400e">You see things the budget holders do not. An observation from someone who works in infrastructure is worth more than a consultant's guess.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(6)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(8)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 8 ── -->
+<div class="page" id="page-8">
+<div class="detail-hero" style="background:linear-gradient(145deg,#0a2e2a,var(--teal))">
+<div class="detail-lever-num">Lever 08</div>
+<h1>Stop doing the<br/><em>same thing</em><br/>manually.</h1>
+<p class="intro">Labour Arbitrage via Automation — if you do the same task the same way every week, there is a good chance we can automate it. And it is easier than you think.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">5–40%</div></div>
+<div class="dm-item"><div class="dm-label">Timeline</div><div class="dm-val">Strategic</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">High</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="opener">
+<div class="oq">"I spend hours on this every month — but that is just how it is."</div>
+<p>We hear this a lot. In most cases, that time is recoverable. Repetitive tasks — copy-paste, data entry, report formatting, status updates, approvals routing — are exactly what automation and AI are built for.<br/><br/><strong>The saving is not just money. It is your time.</strong></p>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Tick what applies to you — honestly.</div>
+<div class="checklist" id="cl-8">
+<div class="check-item" data-item="1" data-label="I copy data from one system into another regularly" data-lever="8" onclick="tick(this,'cl-8','r8')"><div class="check-box">✓</div><div class="check-body"><h5>I copy data from one system into another regularly</h5><small>Spreadsheet to email, email to tracker, system to system...</small></div></div>
+<div class="check-item" data-item="2" data-label="I produce the same report or update every week or month" data-lever="8" onclick="tick(this,'cl-8','r8')"><div class="check-box">✓</div><div class="check-body"><h5>I produce the same report or update every week or month</h5><small>Status reports, dashboards, summaries, meeting prep documents...</small></div></div>
+<div class="check-item" data-item="3" data-label="I manually chase people for approvals or updates" data-lever="8" onclick="tick(this,'cl-8','r8')"><div class="check-box">✓</div><div class="check-body"><h5>I manually chase people for approvals or updates</h5><small>Following up on emails, chasing signatures, reminding people of deadlines...</small></div></div>
+<div class="check-item" data-item="4" data-label="I do the same data cleanup or formatting task repeatedly" data-lever="8" onclick="tick(this,'cl-8','r8')"><div class="check-box">✓</div><div class="check-body"><h5>I do the same data cleanup or formatting task repeatedly</h5><small>Formatting spreadsheets, cleaning up exports, reformatting dates or names...</small></div></div>
+<div class="check-item" data-item="5" data-label="I receive the same type of request and respond similarly each time" data-lever="8" onclick="tick(this,'cl-8','r8')"><div class="check-box">✓</div><div class="check-body"><h5>I receive the same type of request and respond similarly each time</h5><small>Password resets, access requests, FAQ responses, onboarding steps...</small></div></div>
+</div>
+<div class="result-chip" id="r8"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Here is what to do next.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:var(--teal)">1</div><div class="step-body"><h4>Pick one task you ticked above</h4><p>Just one. The most repetitive. Write down the steps it takes from start to finish.</p><span class="chip chip-y">5 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--teal)">2</div><div class="step-body"><h4>Use the Copilot prompt below to analyse it</h4><p>Describe the task. Copilot will tell you which parts are automatable, what tool to use, and roughly how long setup takes. You discover it — you do not build it.</p><span class="chip chip-t">10 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--teal)">3</div><div class="step-body"><h4>Reach out to the DIG team</h4><p>The Digital Innovation &amp; Growth team is your automation partner. They are approachable, resourced to help, and want your ideas. Send them what Copilot told you.</p><span class="chip chip-n">They can help you take it further</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Your Copilot automation discovery prompt</h3>
+<p class="ci">Open Microsoft Copilot. Describe your task. Use this prompt:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-8', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-8">"I have a repetitive task I do regularly. Here is how it works step by step: [describe each step]. Which of these steps could be automated using Microsoft Power Automate, Copilot, or another Microsoft 365 tool? For each automatable step, tell me: (1) which tool would handle it, (2) how complex the setup would be — easy, medium, or complex, (3) an estimate of how much time per week this would save. Be practical and honest about what still requires human judgement."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:var(--teal)">
+<h3 style="color:var(--navy)">Your time is valuable. Protect it.</h3>
+<p style="color:rgba(13,76,147,0.7)">Automation is not about replacing people. It is about giving people back the hours they spend on tasks that should not require a human.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(7)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(9)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 9 ── -->
+<div class="page" id="page-9">
+<div class="detail-hero" style="background:linear-gradient(145deg,#0a2040,#2980b9)">
+<div class="detail-lever-num">Lever 09</div>
+<h1>Is there an app your<br/>team uses that another<br/><em>app already replaces?</em></h1>
+<p class="intro">Application Rationalisation — every redundant application costs money to run, maintain, and secure. You might know of one.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">10–30%</div></div>
+<div class="dm-item"><div class="dm-label">Timeline</div><div class="dm-val">Strategic</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">Medium</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Think about an application your team uses. Answer these.</div>
+<div class="checklist" id="cl-9">
+<div class="check-item" data-item="1" data-label="My team uses this application but Microsoft 365 or SAP already covers it" data-lever="9" onclick="tick(this,'cl-9','r9')"><div class="check-box">✓</div><div class="check-body"><h5>My team uses this application but Microsoft 365 or SAP already covers it</h5><small>Think about Teams, SharePoint, Power BI, Power Apps, or SAP S/4 HANA capabilities.</small></div></div>
+<div class="check-item" data-item="2" data-label="The application has fewer than 10 active users per month" data-lever="9" onclick="tick(this,'cl-9','r9')"><div class="check-box">✓</div><div class="check-body"><h5>The application has fewer than 10 active users per month</h5><small>Low usage with ongoing licence or hosting cost is a strong rationalisation signal.</small></div></div>
+<div class="check-item" data-item="3" data-label="Another team in DBS uses a different tool for the same purpose" data-lever="9" onclick="tick(this,'cl-9','r9')"><div class="check-box">✓</div><div class="check-body"><h5>Another team in DBS uses a different tool for the same purpose</h5><small>Duplicate tools serving the same function across teams is a consolidation opportunity.</small></div></div>
+<div class="check-item" data-item="4" data-label="The application was built custom years ago and nobody maintains it properly" data-lever="9" onclick="tick(this,'cl-9','r9')"><div class="check-box">✓</div><div class="check-body"><h5>The application was built custom years ago and nobody maintains it properly</h5><small>Legacy custom tools accumulate hidden maintenance cost and security risk every year.</small></div></div>
+</div>
+<div class="result-chip" id="r9"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Found a candidate? Here is what to do.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:#2980b9">1</div><div class="step-body"><h4>Name the application and describe what it does</h4><p>What is it called? What does your team use it for? Who else in DBS uses it?</p><span class="chip chip-y">2 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#2980b9">2</div><div class="step-body"><h4>Identify the overlap or replacement</h4><p>Is there something in Microsoft 365 that does the same job? Does S/4 HANA already cover this? Does another team use a better version?</p><span class="chip chip-t">Think broadly</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#2980b9">3</div><div class="step-body"><h4>Share it with ERP, DIG, or PCS leadership</h4><p>These teams manage the application portfolio. Your insight into usage and duplication is something they may not have direct visibility on.</p><span class="chip chip-n">Your perspective is valuable</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Use Copilot to check for overlap</h3>
+<p class="ci">Use this prompt to check whether Microsoft 365 already covers what a third-party app does:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-9', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-9">"I use [application name] for [describe what you do with it]. We already have Microsoft 365 and SAP S/4 HANA. Tell me: (1) does any Microsoft 365 app cover the same functionality — which one and how closely, (2) does SAP S/4 HANA include this capability natively, (3) if we switched, what would we lose and how significant is it, (4) what would be the steps to migrate off this application safely. Keep the answer practical and honest."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:#dbeafe">
+<h3 style="color:#1e3a8a">Every redundant app is money we pay twice.</h3>
+<p style="color:#1d4ed8">You are in the best position to spot the duplication — because you use the tools. That visibility is genuinely valuable.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(8)" type="button">Back</button><button class="wizard-btn primary" onclick="goToLever(10)" type="button">Next</button></div></div>
+</div>
+<!-- ── LEVER 10 ── -->
+<div class="page" id="page-10">
+<div class="detail-hero" style="background:linear-gradient(145deg,#1a0505,#c0392b)">
+<div class="detail-lever-num">Lever 10</div>
+<h1>Is your team working<br/>around a <em>broken or<br/>ancient system?</em></h1>
+<p class="intro">Technology Debt Reduction — every workaround, every "only Ahmed knows how this works," every "we export to Excel because the system can't do it" is costing money daily.</p>
+<div class="detail-meta">
+<div class="dm-item"><div class="dm-label">Savings range</div><div class="dm-val">10–40%</div></div>
+<div class="dm-item"><div class="dm-label">Timeline</div><div class="dm-val">Strategic</div></div>
+<div class="dm-item"><div class="dm-label">Impact</div><div class="dm-val">High</div></div>
+</div>
+</div>
+<div class="detail-body">
+<div class="dsec">
+<div class="opener">
+<div class="oq">Tech debt is like a leak in the roof you have stopped noticing.</div>
+<p>You adapt to it. You put a bucket under it. You tell new joiners "just do not touch that." Meanwhile it quietly damages everything around it — and the longer you leave it, <strong>the more expensive the fix becomes.</strong> The first step to fixing it is admitting it exists.</p>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">Tick what you recognise in your area.</div>
+<div class="checklist" id="cl-10">
+<div class="check-item" data-item="1" data-label="A system that only one or two people know how to operate" data-lever="10" onclick="tick(this,'cl-10','r10')"><div class="check-box">✓</div><div class="check-body"><h5>A system that only one or two people know how to operate</h5><small>If that person leaves, we are in serious trouble. Key-person dependency is a form of tech debt with a real cost.</small></div></div>
+<div class="check-item" data-item="2" data-label="A system running on software or hardware past its end-of-life" data-lever="10" onclick="tick(this,'cl-10','r10')"><div class="check-box">✓</div><div class="check-body"><h5>A system running on software or hardware past its end-of-life</h5><small>Unsupported software costs premium extended support fees and creates security risks requiring expensive compensating controls.</small></div></div>
+<div class="check-item" data-item="3" data-label="A manual workaround that exists because a system does not work properly" data-lever="10" onclick="tick(this,'cl-10','r10')"><div class="check-box">✓</div><div class="check-body"><h5>A manual workaround that exists because a system does not work properly</h5><small>"We export to Excel and reformat it because the system cannot talk to the other system." That Excel process is paid human time covering a system failure.</small></div></div>
+<div class="check-item" data-item="4" data-label="A system we are migrating away from — but still paying full licence costs on" data-lever="10" onclick="tick(this,'cl-10','r10')"><div class="check-box">✓</div><div class="check-body"><h5>A system we are migrating away from — but still paying full licence costs on</h5><small>Classic tech debt: paying for the old and the new simultaneously during a prolonged migration.</small></div></div>
+<div class="check-item" data-item="5" data-label="A custom-built internal tool that nobody maintains properly anymore" data-lever="10" onclick="tick(this,'cl-10','r10')"><div class="check-box">✓</div><div class="check-body"><h5>A custom-built internal tool that nobody maintains properly anymore</h5><small>Built years ago by someone who left. No documentation. Any change requires expensive one-off development work.</small></div></div>
+</div>
+<div class="result-chip" id="r10"></div>
+</div>
+</div>
+<div class="dsec">
+<div class="dcard">
+<div class="dcard-label">How to flag tech debt as a cash preservation idea.</div>
+<div class="steps-list">
+<div class="step-row"><div class="step-num" style="background:#c0392b">1</div><div class="step-body"><h4>Describe the system and the debt</h4><p>What is the system? How old is it? What is broken, outdated, or unsupported? What workarounds exist because of it?</p><span class="chip chip-y">Be specific and honest</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#c0392b">2</div><div class="step-body"><h4>Estimate what the debt is costing</h4><p>Support contract cost, hours spent on workarounds per week, risk of failure or breach. Even a rough estimate makes the idea powerful.</p><span class="chip chip-t">Rough numbers are fine</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#c0392b">3</div><div class="step-body"><h4>Suggest a direction and share it with the ERP, S/4, or Data leadership team</h4><p>Does S/4 HANA cover this? Could it be migrated to cloud? You do not need the full answer — just point the way.</p><span class="chip chip-r">Point the way; you do not need to solve it alone</span></div></div>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="copilot-box">
+<h3>Use Copilot to size the problem</h3>
+<p class="ci">Open Copilot and describe the legacy system:</p>
+<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-10', this)" type="button">Copy prompt</button></div>
+
+<blockquote class="prompt-text" id="prompt-10">"I want to flag a legacy technology debt issue. Here is what I know: [describe the system — name, technology, approximate age, known issues, and any manual workarounds used because of it]. Please help me: (1) estimate the likely annual cost of maintaining this situation — support, workaround effort, risk, (2) describe the security or compliance risk of leaving it as-is, (3) suggest a remediation approach and rough timeline, (4) format this as a short cash preservation idea submission under 200 words."</blockquote>
+</div>
+</div>
+</div>
+<div class="dsec">
+<div class="cta-strip" style="background:#fee2e2">
+<h3 style="color:#7f1d1d">The most expensive tech debt is the kind nobody admits to.</h3>
+<p style="color:#991b1b">You have been working around it. Now is the time to name it out loud. That is the first — and hardest — step to fixing it.</p>
+</div>
+</div>
+<div class="wizard-nav"><button class="wizard-btn secondary" onclick="goToLever(9)" type="button">Back</button><button class="wizard-btn export" onclick="exportIdeas()" type="button">Export all my ideas</button></div></div>
+</div>
+<!-- ════════════════════ SCRIPTS ════════════════════ -->
+<script>
+const TOTAL_LEVERS = 10;
+let currentLever = 1;
+
+function leverTitle(n) {
+  const hero = document.querySelector(`#page-${n} .detail-hero h1`);
+  return hero ? hero.innerText.replace(/\s+/g, ' ').trim() : `Lever ${n}`;
+}
+
+function getStorageKey(base, lever = currentLever) {
+  return `dbs_cash_workbook_${base}_${lever}`;
+}
+
+function getNotesEl() { return document.getElementById('lever-notes'); }
+function getOwnerEl() { return document.getElementById('idea-owner'); }
+function getStatusEl() { return document.getElementById('notes-status'); }
+
+function updateStatus(message = 'Saved locally') {
+  const el = getStatusEl();
+  if (!el) return;
+  el.textContent = message;
+}
+
+function saveOwner() {
+  const owner = getOwnerEl();
+  if (!owner) return;
+  localStorage.setItem('dbs_cash_workbook_owner', owner.value || '');
+}
+
+function loadOwner() {
+  const owner = getOwnerEl();
+  if (!owner) return;
+  owner.value = localStorage.getItem('dbs_cash_workbook_owner') || '';
+}
+
+function saveCurrentNotes() {
+  const notes = getNotesEl();
+  if (!notes) return;
+  localStorage.setItem(getStorageKey('notes'), notes.value || '');
+  updateStatus(`Saved locally for Lever ${currentLever}`);
+}
+
+function loadNotesForLever(n) {
+  const notes = getNotesEl();
+  if (!notes) return;
+  notes.value = localStorage.getItem(getStorageKey('notes', n)) || '';
+  updateStatus(`Saved locally for Lever ${n}`);
+}
+
+function persistChecklistState(lever, item, checked) {
+  localStorage.setItem(getStorageKey(`check_${item}`, lever), checked ? '1' : '0');
+}
+
+function restoreChecklistStates(lever) {
+  const page = document.getElementById(`page-${lever}`);
+  if (!page) return;
+  page.querySelectorAll('.check-item').forEach((item, idx) => {
+    const itemId = item.dataset.item || String(idx + 1);
+    const checked = localStorage.getItem(getStorageKey(`check_${itemId}`, lever)) === '1';
+    item.classList.toggle('ticked', checked);
+    const box = item.querySelector('.check-box');
+    if (box) box.textContent = checked ? '✓' : '';
+  });
+  const checklist = page.querySelector('.checklist');
+  if (checklist && checklist.id) {
+    const result = page.querySelector('.result-chip');
+    if (result && result.id) updateChecklistMessage(checklist.id, result.id);
+  }
+}
+
+function updateNavProgress() {
+  const el = document.getElementById('nav-progress');
+  if (el) el.textContent = `Lever ${currentLever} of ${TOTAL_LEVERS}`;
+}
+
+function animateSections() {
+  const els = document.querySelectorAll('.page.active .dsec');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  els.forEach(el => { el.classList.remove('in'); obs.observe(el); });
+}
+
+function goToLever(n) {
+  if (n < 1 || n > TOTAL_LEVERS) return;
+  saveCurrentNotes();
+  saveOwner();
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(`page-${n}`);
+  if (!target) return;
+  currentLever = n;
+  target.classList.add('active');
+  updateNavProgress();
+  loadNotesForLever(n);
+  restoreChecklistStates(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(animateSections, 80);
+}
+
+function tick(el, listId, resultId) {
+  el.classList.toggle('ticked');
+  const checked = el.classList.contains('ticked');
+  const box = el.querySelector('.check-box');
+  if (box) box.textContent = checked ? '✓' : '';
+  const lever = Number(el.dataset.lever || currentLever);
+  const item = el.dataset.item || '1';
+  persistChecklistState(lever, item, checked);
+  updateChecklistMessage(listId, resultId);
+}
+
+function updateChecklistMessage(listId, resultId) {
+  const n = document.querySelectorAll('#' + listId + ' .check-item.ticked').length;
+  const r = document.getElementById(resultId);
+  if (!r) return;
+  if (n === 0) { r.classList.remove('show'); return; }
+  r.classList.add('show');
+  r.style.background = n >= 3 ? '#e8f8f2' : '#fcdb60';
+  r.style.color = n >= 3 ? '#0f5f43' : '#0d4c93';
+  if (n === 1) r.textContent = '1 item identified — worth capturing as a cash preservation idea.';
+  else if (n === 2) r.textContent = `${n} items found — you have a strong opportunity to write up.`;
+  else r.textContent = `${n} items identified — there may be meaningful saving potential in this area. Consider sharing a concise note for review.`;
+}
+
+async function copyPrompt(promptId, btn) {
+  const el = document.getElementById(promptId);
+  if (!el) return;
+  const text = el.innerText.trim();
+  try {
+    await navigator.clipboard.writeText(text);
+    const original = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1400);
+  } catch (e) {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy prompt'; btn.classList.remove('copied'); }, 1400);
+  }
+}
+
+function gatherIdeas() {
+  const owner = localStorage.getItem('dbs_cash_workbook_owner') || '';
+  const levers = [];
+  for (let i = 1; i <= TOTAL_LEVERS; i++) {
+    const page = document.getElementById(`page-${i}`);
+    const title = leverTitle(i);
+    const notes = localStorage.getItem(getStorageKey('notes', i)) || '';
+    const checkedItems = [];
+    if (page) {
+      page.querySelectorAll('.check-item').forEach((item, idx) => {
+        const itemId = item.dataset.item || String(idx + 1);
+        const checked = localStorage.getItem(getStorageKey(`check_${itemId}`, i)) === '1';
+        if (checked) checkedItems.push(item.dataset.label || item.innerText.trim());
+      });
+    }
+    if (notes.trim() || checkedItems.length) {
+      levers.push({
+        lever: i,
+        title,
+        checkedItems,
+        notes
+      });
+    }
+  }
+  return {
+    owner,
+    exportedAt: new Date().toISOString(),
+    workbook: 'DBS Cash Preservation Workbook',
+    ideas: levers
+  };
+}
+
+function exportIdeas() {
+  saveCurrentNotes();
+  saveOwner();
+  const data = gatherIdeas();
+  const ownerSafe = (data.owner || 'my').replace(/[^a-z0-9]+/gi, '_').replace(/^_|_$/g, '') || 'my';
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${ownerSafe}_cash_preservation_ideas.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  updateStatus('Export created from your locally saved notes');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadOwner();
+  const owner = getOwnerEl();
+  if (owner) owner.addEventListener('input', () => { saveOwner(); updateStatus('Saved locally'); });
+  const notes = getNotesEl();
+  if (notes) notes.addEventListener('input', saveCurrentNotes);
+  goToLever(1);
+});
+</script>
+</body>
+</html>
