@@ -564,27 +564,133 @@ footer p { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em
 }
 
 
-body.with-notes { padding-right: 390px; }
-.nav { gap: 1rem; }
-.nav-progress { color: rgba(255,255,255,0.82); font-size: 13px; font-weight: 600; margin-left: auto; }
+/* ─── NAV layout ─── */
+body.with-notes { padding-right: 380px; transition: padding-right 0.28s ease; }
+body.notes-collapsed { padding-right: 0 !important; }
+.nav { gap: 1rem; flex-wrap: wrap; }
+.nav-brand { flex-shrink: 0; }
+.nav-progress { color: rgba(255,255,255,0.82); font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.nav-spacer { flex: 1; }
+
+/* Timeline switcher in nav */
+.timeline-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 30px;
+  padding: 5px 8px;
+  flex: 1;
+  justify-content: center;
+  max-width: 560px;
+  min-width: 0;
+  margin: 0 auto;
+}
+.timeline-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.timeline-dot:hover {
+  background: rgba(252,219,96,0.25);
+  color: var(--white);
+  transform: scale(1.08);
+}
+.timeline-dot.current {
+  background: var(--yellow);
+  color: var(--navy);
+  box-shadow: 0 0 0 2px rgba(252,219,96,0.3);
+}
+.timeline-dot.visited {
+  background: rgba(72,193,187,0.85);
+  color: var(--white);
+}
+.timeline-dot.visited::after {
+  content: '✓';
+  font-size: 11px;
+}
+.timeline-dot.visited.current { background: var(--yellow); color: var(--navy); }
+.timeline-dot.visited.current::after { content: ''; }
+
+@media (max-width: 900px) {
+  .timeline-wrap { padding: 4px 6px; gap: 4px; }
+  .timeline-dot { width: 22px; height: 22px; font-size: 10px; }
+}
+
+/* ─── Notes panel (drawer) ─── */
+.notes-toggle {
+  position: fixed;
+  top: 75px;
+  right: 18px;
+  z-index: 170;
+  background: var(--navy);
+  color: var(--yellow);
+  border: none;
+  border-radius: 30px;
+  padding: 9px 16px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(13,76,147,0.25);
+  display: none;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.15s ease;
+}
+.notes-toggle:hover { transform: translateY(-1px); }
+.notes-toggle.visible { display: inline-flex; }
+
 .notes-panel {
   position: fixed;
-  top: 82px;
-  right: 18px;
-  width: 340px;
-  max-height: calc(100vh - 100px);
+  top: 70px;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  max-width: 92vw;
   background: var(--white);
-  border: 1px solid var(--border);
-  box-shadow: 0 18px 40px rgba(13,76,147,0.12);
-  border-radius: 18px;
-  padding: 1rem;
-  z-index: 160;
+  border-left: 1px solid var(--border);
+  box-shadow: -8px 0 24px rgba(13,76,147,0.06);
+  padding: 1.25rem 1.1rem 1.5rem;
+  z-index: 165;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  transition: transform 0.28s ease;
 }
-.notes-head h3 { font-size: 18px; color: var(--navy); margin-bottom: 4px; }
-.notes-head p { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 0.9rem; }
-.notes-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; }
+body.notes-collapsed .notes-panel { transform: translateX(105%); }
+
+.notes-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.6rem; }
+.notes-head-text { flex: 1; min-width: 0; }
+.notes-head h3 { font-size: 17px; color: var(--navy); margin-bottom: 4px; font-weight: 700; }
+.notes-head p { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0; }
+.notes-close {
+  flex-shrink: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 30px; height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.notes-close:hover { background: var(--border); color: var(--navy); }
+
+.notes-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.35rem; margin-top: 0.5rem; }
 .notes-name, .notes-text {
   width: 100%;
   border: 1px solid var(--border);
@@ -592,17 +698,18 @@ body.with-notes { padding-right: 390px; }
   font-family: var(--font);
   font-size: 14px;
   color: var(--text);
-  padding: 0.85rem 0.95rem;
+  padding: 0.75rem 0.9rem;
   outline: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 .notes-name:focus, .notes-text:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(13,76,147,0.08); }
-.notes-name { margin-bottom: 0.9rem; }
-.notes-text { min-height: 360px; resize: vertical; flex: 1; }
-.notes-status { margin-top: 0.75rem; font-size: 12px; color: var(--muted); }
-.prompt-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.8rem; }
+.notes-name { margin-bottom: 0.5rem; }
+.notes-text { min-height: 220px; resize: vertical; flex: 1; }
+.notes-status { margin-top: 0.6rem; font-size: 12px; color: var(--muted); }
+
+.prompt-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
 .copy-prompt-btn {
-  border: none; border-radius: 10px; padding: 0.65rem 0.95rem; cursor: pointer;
+  border: none; border-radius: 10px; padding: 0.6rem 0.9rem; cursor: pointer;
   background: var(--yellow); color: var(--navy); font-family: var(--font); font-weight: 700; font-size: 12px;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
@@ -610,6 +717,7 @@ body.with-notes { padding-right: 390px; }
 .copy-prompt-btn.copied { background: var(--teal); color: white; }
 .prompt-label { margin-bottom: 0; }
 .prompt-text { white-space: pre-wrap; }
+
 .wizard-nav {
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   margin-top: 2rem; padding-top: 1rem;
@@ -623,25 +731,74 @@ body.with-notes { padding-right: 390px; }
 .wizard-btn.primary { background: var(--navy); color: white; box-shadow: 0 12px 24px rgba(13,76,147,0.18); }
 .wizard-btn.secondary { background: #eaf0f8; color: var(--navy); }
 .wizard-btn.export { background: var(--teal); color: white; box-shadow: 0 12px 24px rgba(72,193,187,0.18); }
-.page { display: none; }
-.page.active { display: block; }
+
+/* Honesty / reflection box — used inside opener for additional prompts */
+.honesty-box {
+  margin-top: 1.4rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(252,219,96,0.25);
+  border-left: 3px solid var(--yellow);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+}
+.honesty-box .hb-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--yellow);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+}
+.honesty-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.honesty-box ul li {
+  font-size: 14px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.55;
+  padding-left: 1.1rem;
+  position: relative;
+}
+.honesty-box ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+/* Story callout — for the XA admin example etc. Sits inside .opener (navy bg) */
+.story-callout {
+  margin-top: 1rem;
+  background: rgba(72,193,187,0.12);
+  border: 1px solid rgba(72,193,187,0.35);
+  border-left: 3px solid var(--teal);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  font-size: 13px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.65;
+}
+.story-callout strong { color: var(--yellow); font-weight: 700; }
+
 @media (max-width: 1180px) {
   body.with-notes { padding-right: 0; }
-  .notes-panel {
-    position: sticky;
-    top: 72px;
-    right: auto;
-    width: auto;
-    max-height: none;
-    margin: 1rem 1.5rem 0;
-  }
-  .detail-body { max-width: 980px; }
+  .notes-panel { width: 340px; }
+}
+@media (max-width: 700px) {
+  .notes-panel { width: 100%; max-width: 100%; border-left: none; }
+  .notes-toggle { top: 70px; right: 12px; padding: 8px 14px; font-size: 12px; }
 }
 @media (max-width: 600px) {
-  .nav { padding: 0 1rem; }
-  .nav-brand { font-size: 15px; }
+  .nav { padding: 0 1rem; height: auto; min-height: 60px; padding-top: 8px; padding-bottom: 8px; }
+  .nav-brand { font-size: 14px; width: 100%; }
   .nav-progress { font-size: 12px; }
-  .notes-panel { margin: 1rem; }
+  .timeline-wrap { width: 100%; max-width: 100%; }
   .wizard-nav { flex-wrap: wrap; }
   .wizard-btn, .wizard-spacer { width: 100%; }
 }
@@ -651,12 +808,21 @@ body.with-notes { padding-right: 390px; }
 <!-- ════════════════════ NAV ════════════════════ -->
 <nav class="nav">
 <div class="nav-brand">DBS <span>Cash Preservation Workbook</span></div>
+<div class="timeline-wrap" id="timeline-wrap" role="tablist" aria-label="Lever timeline"></div>
+<div class="nav-progress" id="nav-progress">Lever 1 of 10</div>
+</nav>
 
-<div class="nav-progress" id="nav-progress">Lever 1 of 10</div></nav>
+<button class="notes-toggle" id="notes-toggle" type="button" onclick="toggleNotes()" aria-label="Open my notes">
+  📝 My notes
+</button>
+
 <aside class="notes-panel" id="notes-panel">
 <div class="notes-head">
+<div class="notes-head-text">
 <h3>My notes</h3>
 <p>Saved locally on this laptop for each lever.</p>
+</div>
+<button class="notes-close" type="button" onclick="toggleNotes()" aria-label="Close notes">×</button>
 </div>
 <label class="notes-label" for="idea-owner">Your name</label>
 <input class="notes-name" id="idea-owner" placeholder="Enter your name" type="text"/>
@@ -701,7 +867,7 @@ body.with-notes { padding-right: 390px; }
 </div>
 <div class="step-row">
 <div class="step-num" style="background:var(--navy)">3</div>
-<div class="step-body"><h4>Estimate the cost — roughly is fine</h4><p>How many people are on it? How many days a month? Multiply by a rough day rate. Example: 3 people × 10 days/month × QAR 2,000 = QAR 60K/month.</p><span class="chip chip-t">Rough numbers are fine</span></div>
+<div class="step-body"><h4>Estimate the cost — roughly is fine</h4><p>How many people are on it? How many days a month? Multiply by a rough day rate. Example: 3 people × 10 days/month × USD 2,000 = USD 60K/month.</p><span class="chip chip-t">Rough numbers are fine</span></div>
 </div>
 <div class="step-row">
 <div class="step-num" style="background:var(--navy)">4</div>
@@ -714,7 +880,7 @@ body.with-notes { padding-right: 390px; }
 <div class="dcard">
 <div class="dcard-label yellow">What a good submission looks like</div>
 <div class="ex-grid">
-<div class="ex-card good"><div class="ex-label">✅ Actionable — aim for this</div><p>"The weekly automated report sent to 3 executives has not been opened in 4 months. It runs on a QAR 8K/month server job. Suggest we cancel it."</p></div>
+<div class="ex-card good"><div class="ex-label">✅ Actionable — aim for this</div><p>"The weekly automated report sent to 3 executives has not been opened in 4 months. It runs on a USD 8K/month server job. Suggest we cancel it."</p></div>
 <div class="ex-card bad"><div class="ex-label">❌ Too vague to act on</div><p>"We should review our projects and cut unnecessary ones."</p></div>
 </div>
 </div>
@@ -828,7 +994,7 @@ body.with-notes { padding-right: 390px; }
 <div class="steps-list">
 <div class="step-row"><div class="step-num" style="background:var(--saffron)">1</div><div class="step-body"><h4>Note the specific service</h4><p>Provider name, what it is — mobile plan, internet line, legacy number — and roughly how much it costs per month.</p><span class="chip chip-y">2 minutes</span></div></div>
 <div class="step-row"><div class="step-num" style="background:var(--saffron)">2</div><div class="step-body"><h4>Confirm it is genuinely unused or oversized</h4><p>Check last 3 months of usage. If it is a mobile plan, look at data and call logs. If it is a line, think about when it last rang. Trust your gut.</p><span class="chip chip-t">5 minutes</span></div></div>
-<div class="step-row"><div class="step-num" style="background:var(--saffron)">3</div><div class="step-body"><h4>Share it with the Infrastructure or PCS Head</h4><p>A short message is enough: "We have [X] that does not seem to be used — worth reviewing." They can then assess the best next step.</p><span class="chip chip-n">One message</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--saffron)">3</div><div class="step-body"><h4>Share it with the Infrastructure Head</h4><p>A short message is enough: "We have [X] that does not seem to be used — worth reviewing." They can then assess the best next step.</p><span class="chip chip-n">One message</span></div></div>
 </div>
 </div>
 </div>
@@ -884,7 +1050,7 @@ body.with-notes { padding-right: 390px; }
 <div class="dcard">
 <div class="dcard-label yellow">What a good submission looks like</div>
 <div class="ex-grid">
-<div class="ex-card good"><div class="ex-label">✅ Actionable — use this format</div><p>"Vendor: CloudTools Ltd. Annual value: QAR 180,000. Copilot flagged that we are paying for 5 modules but only using 2. Auto-renews in March. Downgrading to 2 modules saves QAR 72K/year."</p></div>
+<div class="ex-card good"><div class="ex-label">✅ Actionable — use this format</div><p>"Vendor: CloudTools Ltd. Annual value: USD 180,000. Copilot flagged that we are paying for 5 modules but only using 2. Auto-renews in March. Downgrading to 2 modules saves USD 72K/year."</p></div>
 <div class="ex-card bad"><div class="ex-label">❌ Too vague — not actionable</div><p>"We should look at our vendor contracts and see if we can save money on them."</p></div>
 </div>
 </div>
@@ -923,12 +1089,21 @@ body.with-notes { padding-right: 390px; }
 <div class="dsec">
 <div class="opener">
 <div class="oq">This is not about replacing people. It is about honest cost comparison.</div>
-<p>Identifying functions where a managed service provider could deliver the same outcome at significantly lower cost. Every person freed from routine operational work is a person available for strategic, high-value work.<br/><br/><strong>That is a win, not a loss.</strong></p>
+<p>The situation is serious, so we need to be honest with ourselves. If we have idle or underutilised engineers, we need to either redeploy them to higher-value work or review the operating model. Identifying functions where a managed service provider could deliver the same outcome at significantly lower cost is part of that honest review. Every person freed from routine operational work is a person available for strategic, high-value work.<br/><br/><strong>That is a win, not a loss.</strong></p>
+<div class="honesty-box">
+<div class="hb-title">Be honest with yourself — does any of this apply?</div>
+<ul>
+<li>Do you have anyone on the team whose role could realistically be converted to part-time?</li>
+<li>Are there resources doing meaningfully less work than their position calls for?</li>
+<li>Is anyone spending most of their week on routine operational tasks that an MSP runs at scale every day?</li>
+<li>Could any of your team be redeployed to a higher-value initiative if the routine work was handled elsewhere?</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="dsec">
 <div class="dcard">
-<div class="dcard-label">Does any of this sound familiar?</div>
+<div class="dcard-label">Where could a managed service provider help?</div>
 <div class="checklist" id="cl-5">
 <div class="check-item" data-item="1" data-label="Your team spends a lot of time on repetitive operational tasks" data-lever="5" onclick="tick(this,'cl-5','r5')"><div class="check-box">✓</div><div class="check-body"><h5>Your team spends a lot of time on repetitive operational tasks</h5><small>Monitoring, first-line support, patching, backup management, routine reporting — important but not where your expertise is most valuable.</small></div></div>
 <div class="check-item" data-item="2" data-label="A small team needs to be available 24/7" data-lever="5" onclick="tick(this,'cl-5','r5')"><div class="check-box">✓</div><div class="check-body"><h5>A small team needs to be available 24/7</h5><small>Shift coverage with a small team is expensive. An MSP at scale can provide 24/7 coverage at a fraction of the in-house cost.</small></div></div>
@@ -995,18 +1170,8 @@ body.with-notes { padding-right: 390px; }
 <div class="dcard-label">Found something? Here is what to do.</div>
 <div class="steps-list">
 <div class="step-row"><div class="step-num" style="background:#27ae60">1</div><div class="step-body"><h4>List the tool and how many users have it</h4><p>Tool name, number of people with access, and your honest assessment of who actually uses it versus who just has the licence.</p><span class="chip chip-y">5 minutes</span></div></div>
-<div class="step-row"><div class="step-num" style="background:#27ae60">2</div><div class="step-body"><h4>Find the cost per licence</h4><p>Check the invoice, the vendor website, or ask the Infrastructure team. Multiply by unused seats. Even a rough figure makes your idea compelling.</p><span class="chip chip-t">10 minutes</span></div></div>
-<div class="step-row"><div class="step-num" style="background:#27ae60">3</div><div class="step-body"><h4>Propose the action</h4><p>Downgrade unused E3 licences to F3. Reclaim licences from inactive users. Cancel tools nobody uses before the next renewal date.</p><span class="chip chip-n">Clear and actionable</span></div></div>
-</div>
-</div>
-</div>
-<div class="dsec">
-<div class="copilot-box">
-<h3>Use Copilot to audit your licence landscape</h3>
-<p class="ci">If you have access to a licence list or usage report, paste it into Copilot with this prompt:</p>
-<div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-6', this)" type="button">Copy prompt</button></div>
-
-<blockquote class="prompt-text" id="prompt-6">"Here is our software licence inventory [paste the list with user counts and last-login dates if available]. Please identify: (1) any licences assigned to users who have not logged in for 60 or more days, (2) licence tiers that are likely over-specified for the user's actual role, (3) any tools that appear to serve the same function as another tool in the list, (4) the total estimated annual saving if unused and duplicate licences were removed. Format your findings as a table."</blockquote>
+<div class="step-row"><div class="step-num" style="background:#27ae60">2</div><div class="step-body"><h4>Look through your own laptop for tools you do not use</h4><p>Open the All Programs / Start menu list and scan it. You will almost certainly find specialist software that was installed for a one-off project and never opened again. Note each one — every unused install is a paid licence we may be able to reclaim.</p><span class="chip chip-t">10 minutes</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#27ae60">3</div><div class="step-body"><h4>Raise a ticket with the support team to reclaim the licences</h4><p>Send the list of unused tools through to the support team via a ticket and ask them to reclaim the licences. They will handle the recovery and update the licence pool — no further action needed from you.</p><span class="chip chip-n">One ticket is enough</span></div></div>
 </div>
 </div>
 </div>
@@ -1048,18 +1213,18 @@ body.with-notes { padding-right: 390px; }
 <div class="dcard-label">How to submit your finding.</div>
 <div class="steps-list">
 <div class="step-row"><div class="step-num" style="background:#e67e22">1</div><div class="step-body"><h4>Name the system or environment</h4><p>What is it? Where does it run? When was it last actively used?</p><span class="chip chip-y">Be specific</span></div></div>
-<div class="step-row"><div class="step-num" style="background:#e67e22">2</div><div class="step-body"><h4>Estimate the monthly running cost</h4><p>For cloud: check the cost in the cloud console. For on-premise: ask the Infrastructure team. Even a rough QAR estimate matters.</p><span class="chip chip-t">Check the cloud console</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#e67e22">2</div><div class="step-body"><h4>Estimate the monthly running cost <em style="font-weight:500;color:var(--muted)">(optional)</em></h4><p>If you have visibility — for cloud, the cost shows up in the cloud console; for on-premise, the Infrastructure team can pull it. If you do not know the cost, that is fine. Submit it anyway. Copilot can help you estimate a rough figure, and the right team will validate it.</p><span class="chip chip-t">Optional — submit anyway</span></div></div>
 <div class="step-row"><div class="step-num" style="background:#e67e22">3</div><div class="step-body"><h4>Suggest the action and share it with the Infrastructure or InfoSec Head</h4><p>Right-size, schedule to turn off, consolidate, or decommission. You do not need to execute it — just propose the direction.</p><span class="chip chip-n">Ready for review</span></div></div>
 </div>
 </div>
 </div>
 <div class="dsec">
 <div class="copilot-box">
-<h3>Use Copilot to write up the finding</h3>
-<p class="ci">Describe your observation to Copilot and use this prompt:</p>
+<h3>Use Copilot to estimate the monthly cost</h3>
+<p class="ci">Not sure what the system actually costs us per month? Describe it to Copilot and let it produce a defensible rough estimate:</p>
 <div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-7', this)" type="button">Copy prompt</button></div>
 
-<blockquote class="prompt-text" id="prompt-7">"I have identified a potential infrastructure optimisation. Here is what I know: [describe the system, its current utilisation, how long it has been running, and what it was originally for]. Help me write a clear cash preservation idea that includes: (1) what the system is, (2) estimated monthly cost, (3) the proposed optimisation action, (4) estimated saving, (5) any risk of making the change. Keep it under 150 words."</blockquote>
+<blockquote class="prompt-text" id="prompt-7">"I want a rough monthly running cost estimate for an underutilised system so I can flag it for cash preservation review. Here is what I know: [describe the system — cloud or on-premise, approximate size, type of workload, region, hours of use per day, anything else relevant]. Please give me: (1) a low and high monthly USD cost estimate using publicly available pricing benchmarks, (2) the assumptions you used, (3) the dominant cost drivers, (4) one or two questions I should ask the Infrastructure team to confirm the figure. Keep the answer practical."</blockquote>
 </div>
 </div>
 </div>
@@ -1087,7 +1252,10 @@ body.with-notes { padding-right: 390px; }
 <div class="dsec">
 <div class="opener">
 <div class="oq">"I spend hours on this every month — but that is just how it is."</div>
-<p>We hear this a lot. In most cases, that time is recoverable. Repetitive tasks — copy-paste, data entry, report formatting, status updates, approvals routing — are exactly what automation and AI are built for.<br/><br/><strong>The saving is not just money. It is your time.</strong></p>
+<p>This is not just about saving money. It is about <strong>process improvement</strong>. Every repetitive manual task — copy-paste between systems, weekly report formatting, status chasing, approvals routing, request handling — is a candidate for redesign. When we improve the process, the saving is automatic: reclaimed time, fewer errors, faster turnaround.<br/><br/><strong>The saving is not just money. It is your time and the quality of your work.</strong></p>
+<div class="story-callout">
+<strong>Real example — XA admin account automation.</strong> For roughly 8 years, around 50 engineers in DBS waited 1–3 days every time they needed their admin account unlocked, because the process was fully manual. When the team finally proposed automating it, leadership was supportive and the change went through quickly. Cumulatively, that is on the order of <strong>thousands of engineering days</strong> recovered across the team — for a process change that should have happened years earlier. The lesson: if a process feels painful, raise it. People want to fix these.
+</div>
 </div>
 </div>
 <div class="dsec">
@@ -1109,7 +1277,7 @@ body.with-notes { padding-right: 390px; }
 <div class="steps-list">
 <div class="step-row"><div class="step-num" style="background:var(--teal)">1</div><div class="step-body"><h4>Pick one task you ticked above</h4><p>Just one. The most repetitive. Write down the steps it takes from start to finish.</p><span class="chip chip-y">5 minutes</span></div></div>
 <div class="step-row"><div class="step-num" style="background:var(--teal)">2</div><div class="step-body"><h4>Use the Copilot prompt below to analyse it</h4><p>Describe the task. Copilot will tell you which parts are automatable, what tool to use, and roughly how long setup takes. You discover it — you do not build it.</p><span class="chip chip-t">10 minutes</span></div></div>
-<div class="step-row"><div class="step-num" style="background:var(--teal)">3</div><div class="step-body"><h4>Reach out to the DIG team</h4><p>The Digital Innovation &amp; Growth team is your automation partner. They are approachable, resourced to help, and want your ideas. Send them what Copilot told you.</p><span class="chip chip-n">They can help you take it further</span></div></div>
+<div class="step-row"><div class="step-num" style="background:var(--teal)">3</div><div class="step-body"><h4>Contact the PCS team for automation — or the relevant team</h4><p>The PCS team is your first stop for automation. If your process touches another area — DIG for digital innovation, ERP for SAP-side workflows — reach out there too. Send them what Copilot suggested. Heads have been very supportive of these proposals, like with the XA admin account automation above. They want your ideas.</p><span class="chip chip-n">They can help you take it further</span></div></div>
 </div>
 </div>
 </div>
@@ -1119,7 +1287,7 @@ body.with-notes { padding-right: 390px; }
 <p class="ci">Open Microsoft Copilot. Describe your task. Use this prompt:</p>
 <div class="prompt-card"><div class="prompt-topbar"><div class="prompt-label">📋 Copy this prompt</div><button class="copy-prompt-btn" onclick="copyPrompt('prompt-8', this)" type="button">Copy prompt</button></div>
 
-<blockquote class="prompt-text" id="prompt-8">"I have a repetitive task I do regularly. Here is how it works step by step: [describe each step]. Which of these steps could be automated using Microsoft Power Automate, Copilot, or another Microsoft 365 tool? For each automatable step, tell me: (1) which tool would handle it, (2) how complex the setup would be — easy, medium, or complex, (3) an estimate of how much time per week this would save. Be practical and honest about what still requires human judgement."</blockquote>
+<blockquote class="prompt-text" id="prompt-8">"Describe a manual process I do at work and help me improve it. Here is the process step by step: [describe each step — what triggers it, what systems are involved, what the output is, how often it runs, roughly how long it takes me each time]. Please tell me: (1) which specific steps could be cut, simplified, or fully automated, (2) for each automatable step, which Microsoft 365 / Power Platform / Copilot capability would handle it and roughly how complex the setup is, (3) which steps still need human judgement and why, (4) the realistic time saved per week or month if this was redesigned, (5) which DBS team I should approach to take this forward — for example PCS for automation, DIG for digital innovation, ERP for SAP workflow, or another. Be practical and honest."</blockquote>
 </div>
 </div>
 </div>
@@ -1162,7 +1330,7 @@ body.with-notes { padding-right: 390px; }
 <div class="steps-list">
 <div class="step-row"><div class="step-num" style="background:#2980b9">1</div><div class="step-body"><h4>Name the application and describe what it does</h4><p>What is it called? What does your team use it for? Who else in DBS uses it?</p><span class="chip chip-y">2 minutes</span></div></div>
 <div class="step-row"><div class="step-num" style="background:#2980b9">2</div><div class="step-body"><h4>Identify the overlap or replacement</h4><p>Is there something in Microsoft 365 that does the same job? Does S/4 HANA already cover this? Does another team use a better version?</p><span class="chip chip-t">Think broadly</span></div></div>
-<div class="step-row"><div class="step-num" style="background:#2980b9">3</div><div class="step-body"><h4>Share it with ERP, DIG, or PCS leadership</h4><p>These teams manage the application portfolio. Your insight into usage and duplication is something they may not have direct visibility on.</p><span class="chip chip-n">Your perspective is valuable</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#2980b9">3</div><div class="step-body"><h4>Submit your idea for us to review with the architecture team for action</h4><p>You do not need to chase the right owner yourself. Capture what you have noticed and submit it — we will review it with the architecture team and they will take it forward. Your visibility into actual day-to-day usage is the part nobody else has.</p><span class="chip chip-n">Submit and let us route it</span></div></div>
 </div>
 </div>
 </div>
@@ -1201,6 +1369,16 @@ body.with-notes { padding-right: 390px; }
 <div class="opener">
 <div class="oq">Tech debt is like a leak in the roof you have stopped noticing.</div>
 <p>You adapt to it. You put a bucket under it. You tell new joiners "just do not touch that." Meanwhile it quietly damages everything around it — and the longer you leave it, <strong>the more expensive the fix becomes.</strong> The first step to fixing it is admitting it exists.</p>
+<div class="honesty-box">
+<div class="hb-title">The most dangerous tech debt: knowledge that lives in one person's head</div>
+<ul>
+<li>Is there a system in your area where only one person knows how it works, how to fix it, or how to operate it?</li>
+<li>Has that knowledge ever been written down, recorded, or shared with a backup?</li>
+<li>What happens to that system the day that person is on leave, sick, or moves on?</li>
+<li>Are there processes you run that nobody else on the team could pick up cold?</li>
+</ul>
+<p style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;margin-top:0.85rem;">Single-person dependencies are tech debt with a real, ongoing cost — slower delivery, hidden risk, and an expensive scramble the day the dependency leaves. Documenting and sharing knowledge is one of the cheapest, highest-impact fixes available.</p>
+</div>
 </div>
 </div>
 <div class="dsec">
@@ -1222,7 +1400,7 @@ body.with-notes { padding-right: 390px; }
 <div class="steps-list">
 <div class="step-row"><div class="step-num" style="background:#c0392b">1</div><div class="step-body"><h4>Describe the system and the debt</h4><p>What is the system? How old is it? What is broken, outdated, or unsupported? What workarounds exist because of it?</p><span class="chip chip-y">Be specific and honest</span></div></div>
 <div class="step-row"><div class="step-num" style="background:#c0392b">2</div><div class="step-body"><h4>Estimate what the debt is costing</h4><p>Support contract cost, hours spent on workarounds per week, risk of failure or breach. Even a rough estimate makes the idea powerful.</p><span class="chip chip-t">Rough numbers are fine</span></div></div>
-<div class="step-row"><div class="step-num" style="background:#c0392b">3</div><div class="step-body"><h4>Suggest a direction and share it with the ERP, S/4, or Data leadership team</h4><p>Does S/4 HANA cover this? Could it be migrated to cloud? You do not need the full answer — just point the way.</p><span class="chip chip-r">Point the way; you do not need to solve it alone</span></div></div>
+<div class="step-row"><div class="step-num" style="background:#c0392b">3</div><div class="step-body"><h4>Submit your idea for us to review</h4><p>You do not need to figure out the right destination — ERP, S/4, Data, Architecture. Submit your finding and we will review it with the relevant team for action. Your job is to flag it; ours is to route it.</p><span class="chip chip-r">Just submit it — we will route it</span></div></div>
 </div>
 </div>
 </div>
@@ -1248,10 +1426,21 @@ body.with-notes { padding-right: 390px; }
 <script>
 const TOTAL_LEVERS = 10;
 let currentLever = 1;
+const visitedLevers = new Set();
 
 function leverTitle(n) {
   const hero = document.querySelector(`#page-${n} .detail-hero h1`);
   return hero ? hero.innerText.replace(/\s+/g, ' ').trim() : `Lever ${n}`;
+}
+
+function leverShortLabel(n) {
+  // map of short labels per lever
+  const labels = {
+    1:'Project rationalisation', 2:'Asset transfer', 3:'Telecom',
+    4:'Vendor & contract', 5:'Rebadging / MSP', 6:'Software & hardware',
+    7:'Infrastructure', 8:'Automation', 9:'App rationalisation', 10:'Tech debt'
+  };
+  return labels[n] || `Lever ${n}`;
 }
 
 function getStorageKey(base, lever = currentLever) {
@@ -1315,6 +1504,47 @@ function restoreChecklistStates(lever) {
   }
 }
 
+function loadVisited() {
+  try {
+    const raw = localStorage.getItem('dbs_cash_workbook_visited') || '[]';
+    const arr = JSON.parse(raw);
+    arr.forEach(n => visitedLevers.add(Number(n)));
+  } catch (e) { /* ignore */ }
+}
+
+function saveVisited() {
+  localStorage.setItem('dbs_cash_workbook_visited', JSON.stringify(Array.from(visitedLevers)));
+}
+
+function buildTimeline() {
+  const wrap = document.getElementById('timeline-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  for (let i = 1; i <= TOTAL_LEVERS; i++) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'timeline-dot';
+    btn.dataset.lever = i;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-label', `Lever ${i} — ${leverShortLabel(i)}`);
+    btn.title = `Lever ${i}: ${leverShortLabel(i)}`;
+    btn.textContent = i;
+    btn.addEventListener('click', () => goToLever(i));
+    wrap.appendChild(btn);
+  }
+}
+
+function refreshTimeline() {
+  const wrap = document.getElementById('timeline-wrap');
+  if (!wrap) return;
+  wrap.querySelectorAll('.timeline-dot').forEach(dot => {
+    const n = Number(dot.dataset.lever);
+    dot.classList.toggle('current', n === currentLever);
+    dot.classList.toggle('visited', visitedLevers.has(n) && n !== currentLever);
+    dot.textContent = (visitedLevers.has(n) && n !== currentLever) ? '' : n;
+  });
+}
+
 function updateNavProgress() {
   const el = document.getElementById('nav-progress');
   if (el) el.textContent = `Lever ${currentLever} of ${TOTAL_LEVERS}`;
@@ -1332,12 +1562,17 @@ function goToLever(n) {
   if (n < 1 || n > TOTAL_LEVERS) return;
   saveCurrentNotes();
   saveOwner();
+  // mark previous lever as visited
+  visitedLevers.add(currentLever);
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById(`page-${n}`);
   if (!target) return;
   currentLever = n;
+  visitedLevers.add(n);
+  saveVisited();
   target.classList.add('active');
   updateNavProgress();
+  refreshTimeline();
   loadNotesForLever(n);
   restoreChecklistStates(n);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1392,6 +1627,27 @@ async function copyPrompt(promptId, btn) {
   }
 }
 
+function toggleNotes() {
+  const collapsed = document.body.classList.toggle('notes-collapsed');
+  const btn = document.getElementById('notes-toggle');
+  if (btn) btn.classList.toggle('visible', collapsed);
+  localStorage.setItem('dbs_cash_workbook_notes_collapsed', collapsed ? '1' : '0');
+}
+
+function initNotesState() {
+  // On narrow screens default to collapsed; otherwise restore last user choice
+  const stored = localStorage.getItem('dbs_cash_workbook_notes_collapsed');
+  let collapsed;
+  if (stored === '1' || stored === '0') {
+    collapsed = stored === '1';
+  } else {
+    collapsed = window.innerWidth < 1180;
+  }
+  document.body.classList.toggle('notes-collapsed', collapsed);
+  const btn = document.getElementById('notes-toggle');
+  if (btn) btn.classList.toggle('visible', collapsed);
+}
+
 function gatherIdeas() {
   const owner = localStorage.getItem('dbs_cash_workbook_owner') || '';
   const levers = [];
@@ -1443,6 +1699,9 @@ function exportIdeas() {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadOwner();
+  loadVisited();
+  buildTimeline();
+  initNotesState();
   const owner = getOwnerEl();
   if (owner) owner.addEventListener('input', () => { saveOwner(); updateStatus('Saved locally'); });
   const notes = getNotesEl();
